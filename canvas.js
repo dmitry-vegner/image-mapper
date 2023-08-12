@@ -1,4 +1,4 @@
-import {polygons, curPolygon, resetCurPolygon} from './polygons.js';
+import {polygons, curPolygon, resetCurPolygon, savePolygons} from './polygons.js';
 
 function adoptCanvasSize(canvas) {
   canvas.height = canvas.clientHeight;
@@ -29,14 +29,16 @@ export function continuePath(x, y) {
   ctx.stroke();
 }
 
-export function closePath() {
+export function closePath(avoidSave = false) {
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
   setTimeout(() => {
-    curPolygon.hint = prompt();
-    polygons.push(curPolygon);
+    if (!avoidSave) {
+      curPolygon.hint = prompt();
+      polygons.push(curPolygon);
+    }
+    savePolygons();
     resetCurPolygon();
-    console.debug(polygons);
   });
 }
