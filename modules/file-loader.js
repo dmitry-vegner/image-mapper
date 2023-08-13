@@ -13,6 +13,7 @@ export function subscribeOnUpload(callback) {
   if (typeof callback === 'function') callbacks.push(callback);
 }
 
+const clearButton = document.getElementById('clear-button');
 const fileInput = document.getElementById('map-file');
 function handleFileChange() {
   if (!fileInput.files.length) return;
@@ -20,8 +21,10 @@ function handleFileChange() {
   imageName = fileInput.files[0].name;
 
   fileInput.style.display = 'none';
+  clearButton.style.display = 'none';
   callbacks.forEach(callback => typeof callback === 'function' ? callback() : null);
   fileInput.removeEventListener('change', handleFileChange);
 }
 
 fileInput.addEventListener('change', handleFileChange);
+clearButton.addEventListener('click', () => localStorage.clear());
