@@ -1,6 +1,6 @@
-import {curPolygon} from './polygons.js';
-import {updateHint, updateCursor} from './map.js';
-import {canvas, startPath, continuePath, closePath} from './canvas.js';
+import {curPolygon} from './modules/polygons.js';
+import {updateHint, updateCursor} from './modules/map.js';
+import {canvas, startPath, continuePath, closePath} from './modules/canvas.js';
 
 canvas.addEventListener('mousemove', ({clientX, clientY}) => {
   updateHint(clientX, clientY);
