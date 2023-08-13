@@ -9,6 +9,7 @@ html {
 .body {
   display: flex;
   flex-direction: row;
+  background-color: #ccc5b8;
 }
 
 #hint {
@@ -20,7 +21,7 @@ html {
 #canvas {
   width: calc(100%);
   height: calc(100%);
-  background-image: url('./background.png');
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
 }

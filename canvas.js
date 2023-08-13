@@ -1,31 +1,18 @@
 import {polygons, curPolygon, resetCurPolygon, savePolygons} from './polygons.js';
-
-function adoptCanvasSize(canvas) {
-  canvas.height = canvas.clientHeight;
-  canvas.width = canvas.clientWidth;
-}
-
-function initCanvasCtx(ctx) {
-  ctx.strokeStyle = 'rgb(0, 100, 0)';
-  ctx.fillStyle = 'rgba(0, 50, 0, .2)';
-  ctx.lineWidth = 2;
-}
+import {getImageUrl, subscribeOnUpload} from './file-loader.js';
 
 export const canvas = document.getElementById('canvas');
-export const ctx = canvas.getContext('2d'); 
-export const offsetLeft = canvas.offsetLeft;
-adoptCanvasSize(canvas);
-initCanvasCtx(ctx);
+export let ctx;
 
 export function startPath(x, y) {
   ctx.beginPath();
-  ctx.moveTo(x - offsetLeft, y);
+  ctx.moveTo(x, y);
   curPolygon.vertexes.push([x, y]);
 }
 
 export function continuePath(x, y) {
   curPolygon.vertexes.push([x, y]);
-  ctx.lineTo(x - offsetLeft, y);
+  ctx.lineTo(x, y);
   ctx.stroke();
 }
 
@@ -42,3 +29,16 @@ export function closePath(avoidSave = false) {
     resetCurPolygon();
   });
 }
+
+subscribeOnUpload(() => {
+  canvas.style.backgroundImage = `url(${getImageUrl()})`;
+  canvas.style.display = 'block';
+
+  canvas.height = canvas.clientHeight;
+  canvas.width = canvas.clientWidth;
+
+  ctx = canvas.getContext('2d');
+  ctx.strokeStyle = 'rgb(0, 100, 0)';
+  ctx.fillStyle = 'rgba(0, 50, 0, .2)';
+  ctx.lineWidth = 2;
+});

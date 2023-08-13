@@ -1,12 +1,16 @@
+import {getImageName, subscribeOnUpload} from './file-loader.js';
 import {closePath, continuePath, startPath} from './canvas.js';
-import {hasSaves, hash} from './hash.js';
 
-export const polygons = hasSaves ? loadPolygons() : [];
+subscribeOnUpload(() => {
+  polygons = loadPolygons();
+  drawPolygons();
+});
+
+export let polygons = [];
 export let curPolygon = {
   vertexes: [],
   hint: '',
 };
-drawPolygons();
 
 export function resetCurPolygon() {
   curPolygon = {
@@ -17,7 +21,7 @@ export function resetCurPolygon() {
 
 function loadPolygons() {
   try {
-    const polygonsJson = localStorage.getItem(hash);
+    const polygonsJson = localStorage.getItem(getImageName());
     const parsedPolygons = JSON.parse(polygonsJson);
     return parsedPolygons || [];
   } catch(error) {
@@ -28,7 +32,7 @@ function loadPolygons() {
 
 export function savePolygons() {
   const polygonsJson = JSON.stringify(polygons);
-  localStorage.setItem(hash, polygonsJson);
+  localStorage.setItem(getImageName(), polygonsJson);
 }
 
 function drawPolygons() {
